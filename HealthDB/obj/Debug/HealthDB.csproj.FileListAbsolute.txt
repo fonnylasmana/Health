@@ -1,0 +1,10 @@
+C:\Health\Health\HealthDB\bin\Debug\HealthDB.dll
+C:\Health\Health\HealthDB\bin\Debug\HealthDB.pdb
+C:\Health\Health\HealthDB\bin\Debug\AWSSDK.Core.dll
+C:\Health\Health\HealthDB\bin\Debug\AWSSDK.DynamoDBv2.dll
+C:\Health\Health\HealthDB\bin\Debug\AWSSDK.Core.pdb
+C:\Health\Health\HealthDB\bin\Debug\AWSSDK.Core.xml
+C:\Health\Health\HealthDB\bin\Debug\AWSSDK.DynamoDBv2.pdb
+C:\Health\Health\HealthDB\bin\Debug\AWSSDK.DynamoDBv2.xml
+C:\Health\Health\HealthDB\obj\Debug\HealthDB.dll
+C:\Health\Health\HealthDB\obj\Debug\HealthDB.pdb

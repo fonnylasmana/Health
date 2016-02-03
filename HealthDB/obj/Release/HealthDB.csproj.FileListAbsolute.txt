@@ -1,0 +1,11 @@
+C:\Health\Health\HealthDB\bin\Release\HealthDB.dll
+C:\Health\Health\HealthDB\bin\Release\HealthDB.pdb
+C:\Health\Health\HealthDB\bin\Release\AWSSDK.Core.dll
+C:\Health\Health\HealthDB\bin\Release\AWSSDK.DynamoDBv2.dll
+C:\Health\Health\HealthDB\bin\Release\AWSSDK.Core.pdb
+C:\Health\Health\HealthDB\bin\Release\AWSSDK.Core.xml
+C:\Health\Health\HealthDB\bin\Release\AWSSDK.DynamoDBv2.pdb
+C:\Health\Health\HealthDB\bin\Release\AWSSDK.DynamoDBv2.xml
+C:\Health\Health\HealthDB\obj\Release\HealthDB.dll
+C:\Health\Health\HealthDB\obj\Release\HealthDB.pdb
+C:\Health\Health\HealthDB\obj\Release\HealthDB.csprojResolveAssemblyReference.cache

@@ -1,0 +1,219 @@
+﻿@using Health.Helper
+@model Health.Areas.Users.Models.UserProfile
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<ul class="breadcrumb">
+    <li class="active">Registrasi</li>
+</ul>
+<div class="panel panel-default">
+    <div class="panel-heading">
+        <h4 class="panel-title">Registrasi</h4>
+    </div>
+
+    @using (Html.BeginForm())
+    {
+        @Html.AntiForgeryToken()
+        <div class="panel-body">
+            <div class="form-horizontal">
+                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Email, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Email, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.Password, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.Password, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.FirstName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.FirstName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.FirstName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MiddleName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.MiddleName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MiddleName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.LastName, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.LastName, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.LastName, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.DOB, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-9">
+                        <div class="input-group date" id="datetimepickerDOB">
+                            @Html.EditorFor(model => model.DOB, new { htmlAttributes = new { @class = "form-control" } })
+                            <span class="input-group-addon">
+                                <span class="glyphicon glyphicon-calendar"></span>
+                            </span>
+
+                        </div>
+                        <span class="help-block">@Html.ValidationMessageFor(model => model.DOB, "", new { @class = "text-danger" })</span>
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.GenderID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.GenderID, new SelectList(Model.getAllGender, "Value", "Text"), "-Silahkan Pilih-", new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.GenderID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.MobilePhone, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.EditorFor(model => model.MobilePhone, new { htmlAttributes = new { @class = "form-control" } })
+                        @Html.ValidationMessageFor(model => model.MobilePhone, "", new { @class = "text-danger", @type = "number" })
+                    </div>
+                </div>
+
+
+                <div class="form-group">
+                    @Html.LabelFor(model => model.UserTypeID, htmlAttributes: new { @class = "control-label col-md-2" })
+                    <div class="col-md-10">
+                        @Html.DropDownListFor(model => model.UserTypeID, new SelectList(Model.getAllUserTypes, "Value", "Text"), "-Silahkan Pilih-",  new { @class = "form-control" })
+                        @Html.ValidationMessageFor(model => model.UserTypeID, "", new { @class = "text-danger" })
+                    </div>
+                </div>
+                <div id="divLicense" style="display:none">
+                    
+                        <div class="form-group">
+                            @Html.LabelFor(model => model.LicenseExpireDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                            <div class="col-md-9">
+                                <div class="input-group date" id="datetimepickerLicenseExpireDate">
+                                    @Html.EditorFor(model => model.LicenseExpireDate, new { htmlAttributes = new { @class = "form-control" } })
+                                    <span class="input-group-addon">
+                                        <span class="glyphicon glyphicon-calendar"></span>
+                                    </span>
+                                    
+                                </div>
+                                <span class="help-block">@Html.ValidationMessageFor(model => model.LicenseExpireDate, "", new { @class = "text-danger" })</span>
+                            </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LicenseIssueDate, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-9">
+                            <div class="input-group date" id="datetimepickerLicenseIssueDate">
+                                @Html.EditorFor(model => model.LicenseIssueDate, new { htmlAttributes = new { @class = "form-control" } })
+                                <span class="input-group-addon">
+                                    <span class="glyphicon glyphicon-calendar"></span>
+                                </span>
+                                <span class="help-block">@Html.ValidationMessageFor(model => model.LicenseIssueDate, "", new { @class = "text-danger" })</span>
+                            </div>
+                            </div>
+                        </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LicenseIssuePlace, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.LicenseIssuePlace, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LicenseIssuePlace, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        @Html.LabelFor(model => model.LicenseNumber, htmlAttributes: new { @class = "control-label col-md-2" })
+                        <div class="col-md-10">
+                            @Html.EditorFor(model => model.LicenseNumber, new { htmlAttributes = new { @class = "form-control" } })
+                            @Html.ValidationMessageFor(model => model.LicenseNumber, "", new { @class = "text-danger" })
+                        </div>
+                    </div>
+
+
+                </div>
+
+                <div class="form-group">
+                    <div class="col-md-offset-2 col-md-10">
+                        <input type="submit" value="Lanjut" class="btn btn-default" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    }
+
+   
+
+    @section Scripts {
+        @Scripts.Render("~/bundles/jqueryval")
+
+    }
+</div>
+
+<script type="text/javascript">
+    $(function () {
+                $("#Email").focus();
+                $("#datetimepickerDOB").datepicker();
+                $("#datetimepickerLicenseExpireDate").datepicker();
+                $("#datetimepickerLicenseIssueDate").datepicker();
+                $("#MobilePhone").mask("(999) 99999999");
+                $("#UserTypeID").change(function () {
+                    if ($("#UserTypeID option:selected").text() != "Pasien" && $("#UserTypeID option:selected").val() != "")
+                    {
+                        $("#divLicense").css("display", "block");
+                    }
+                    else
+                    {
+                        $("#divLicense").css("display", "none");
+                    }
+                });
+
+                
+    });
+
+
+            $("#Email")
+              .focusout(function () {
+
+                  var email = $("#Email").val().trim();
+                  if (email != null && email.length > 0) {
+                      var emailinput = {
+                          Email: email
+                      };
+
+                      $.ajax({
+                          url: "User/CheckEmail",
+                          datatype: "json",
+                          contentType: 'application/json; charset=utf-8',
+                          type: "POST",
+                          data: JSON.stringify(emailinput),
+                          success: function (data) {
+                              if (data == "false") {
+                                  alert("Email ini sudah diregistrasi. Silahkan gunakan email lain atau reset password anda.")
+                              }
+                          },
+                          error: function (data) {
+                              alert("error");
+                          },
+                          async: false
+                      });
+                  }
+                 
+              })
+</script>

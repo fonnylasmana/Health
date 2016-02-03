@@ -1,0 +1,170 @@
+﻿@model Health.Areas.Prescription.Models.Prescription
+@{
+    ViewBag.Title = "Order";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="form-horizontal">
+    <h4>Invoice</h4>
+    <hr />
+    <div class="form-group">
+        Order dengan nomor invoice @Model.InvoiceId sudah diproses.
+    </div>
+
+
+    @if (Model != null)
+    {
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PharmacistUserId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.PharmacistUserId, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.PharmacistUserId, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PatientUserId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Model.Patient.FirstName @Model.Patient.LastName
+                <br />
+                @Model.Patient.DOB.ToShortDateString() @Model.Patient.Email
+                @Html.HiddenFor(model => model.PatientUserId)
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.PrescribedByUserId, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Model.Doctor.FirstName @Model.Doctor.LastName
+                <br />
+                @Model.Doctor.DOB.ToShortDateString() @Model.Doctor.Email
+                @Html.HiddenFor(model => model.PrescribedByUserId)
+            </div>
+        </div>
+        var GroupName = "";
+        if (Model.Drugs != null)
+        {
+            if (Model.Drugs.Count > 0)
+            {
+                <div class="form-group" id="divDrugs">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Jenis Resep</th>
+                                <th>Resep Obat</th>
+                                <th>Instruksi</th>
+                                <th>Jumlah</th>
+                                <th>Dosis</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var m in Model.Drugs)
+                            {
+
+                                if (GroupName != m.GroupName)
+                                {
+                                    if (m.GroupName != null && m.GroupName != "")
+                                    {
+                            <tr>
+                                <td colspan="5" style="background-color:#cdcdcd">Nama Racikan: @m.GroupName</td>
+                            </tr>
+                                    }
+
+                                    GroupName = m.GroupName;
+                                }
+                            <tr>
+                                <td>
+                                    @m.PrescriptionType
+                                </td>
+                                <td>@m.DrugName</td>
+                                <td>@m.Direction</td>
+                                <td>@m.Quantity</td>
+                                <td>@m.Strength</td>
+                            </tr>
+                                            }
+                        </tbody>
+                    </table>
+                </div>
+            }
+        }
+
+
+
+        <div class="divPrescription" style="display:none">
+            <div class="form-group">
+                @Html.LabelFor(model => model.PrescriptionTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.DropDownListFor(model => model.PrescriptionTypeId, new SelectList(Model.getAllPrescriptionTypes, "Value", "Text"), "-Silahkan Pilih-", new { @class = "form-control" })
+                    @Html.ValidationMessageFor(model => model.PrescriptionTypeId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group" id="divGroupName" style="display:none">
+                @Html.LabelFor(model => model.GroupName, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.GroupName, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.GroupName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.DrugName, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                <div class="col-md-10">
+
+                    @Html.EditorFor(model => model.DrugName, new { htmlAttributes = new { @class = "form-control" } })
+                    <div id="container">
+                    </div>
+                    @Html.ValidationMessageFor(model => model.DrugName, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Direction, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Direction, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Direction, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.Strength, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.Strength, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.Strength, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-md-offset-2 col-md-10">
+                    @Html.HiddenFor(model => model.InvoiceId)
+                </div>
+            </div>
+        </div>
+
+       
+    }
+</div>
+
+<div class="form-group">
+    <div class="col-md-offset-2 col-md-10">
+        <input type="button" id="btnPrint" value="Print" class="btn btn-default" />
+    </div>
+</div>
+
+<script type="text/javascript">
+    $(function () {
+        $("#btnPrint").click(function () {
+            window.print();
+        })
+    })
+</script>
+

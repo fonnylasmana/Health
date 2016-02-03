@@ -1,0 +1,251 @@
+﻿@model Health.Areas.Prescription.Models.Prescription
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@using (Html.BeginForm()) 
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Prescription</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @if (Model != null)
+        {
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PharmacistUserId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Html.EditorFor(model => model.PharmacistUserId, new { htmlAttributes = new { @class = "form-control" } })
+                    @Html.ValidationMessageFor(model => model.PharmacistUserId, "", new { @class = "text-danger" })
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PatientUserId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Model.Patient.FirstName @Model.Patient.LastName
+                    <br />
+                    @Model.Patient.DOB.ToShortDateString() @Model.Patient.Email
+                    @Html.HiddenFor(model => model.PatientUserId)
+                </div>
+            </div>
+
+            <div class="form-group">
+                @Html.LabelFor(model => model.PrescribedByUserId, htmlAttributes: new { @class = "control-label col-md-2" })
+                <div class="col-md-10">
+                    @Model.Doctor.FirstName @Model.Doctor.LastName
+                    <br />
+                    @Model.Doctor.DOB.ToShortDateString() @Model.Doctor.Email
+                    @Html.HiddenFor(model => model.PrescribedByUserId)
+                </div>
+            </div>
+            var GroupName = "";
+            if (Model.Drugs != null)
+            {
+                if (Model.Drugs.Count > 0)
+                {
+                    <div class="form-group" id="divDrugs">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Jenis Resep</th>
+                                    <th>Resep Obat</th>
+                                    <th>Instruksi</th>
+                                    <th>Jumlah</th>
+                                    <th>Dosis</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var m in Model.Drugs)
+                                {
+
+                                    if (GroupName != m.GroupName)
+                                    {
+                                        if (m.GroupName != null && m.GroupName != "")
+                                        {
+                                <tr>
+                                    <td colspan="5" style="background-color:#cdcdcd">Nama Racikan: @m.GroupName</td>
+                                </tr>
+                                        }
+
+                                        GroupName = m.GroupName;
+                                    }
+                                <tr>
+                                    <td>
+                                        @{ var deleteLink = "Delete/" + m.Id + "?PatientID=" + Model.PatientUserId + "&DoctorID=" + Model.PrescribedByUserId;}
+                                        <a href=@deleteLink><img src="~/Content/images/delete.png" /></a>
+
+                                        &nbsp;&nbsp;@m.PrescriptionType
+                                    </td>
+                                    <td>@m.DrugName</td>
+                                    <td>@m.Direction</td>
+                                    <td>@m.Quantity</td>
+                                    <td>@m.Strength</td>
+                                </tr>
+                                                }
+                            </tbody>
+                        </table>
+                    </div>
+                                                }
+                                            }
+
+
+                                            <div class="form-group">
+                                                <div class="col-md-offset-2 col-md-10">
+                                                    <input type="button" id="btnAddPrescription" value="Masukkan Resep" class="btn btn-default" />
+                                                    <input type="button" id="btnNext" value="Lanjut" class="btn btn-default" />
+                                                </div>
+                                            </div>
+                                                <div class="divPrescription" style="display:none">
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.PrescriptionTypeId, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-10">
+                                                            @Html.DropDownListFor(model => model.PrescriptionTypeId, new SelectList(Model.getAllPrescriptionTypes, "Value", "Text"), "-Silahkan Pilih-", new { @class = "form-control" })
+                                                            @Html.ValidationMessageFor(model => model.PrescriptionTypeId, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group" id="divGroupName" style="display:none">
+                                                        @Html.LabelFor(model => model.GroupName, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-10">
+                                                            @Html.EditorFor(model => model.GroupName, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.GroupName, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.DrugName, htmlAttributes: new { @class = "control-label col-md-2" })
+
+                                                        <div class="col-md-10">
+
+                                                            @Html.EditorFor(model => model.DrugName, new { htmlAttributes = new { @class = "form-control" } })
+                                                            <div id="container">
+                                                            </div>
+                                                            @Html.ValidationMessageFor(model => model.DrugName, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Direction, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-10">
+                                                            @Html.EditorFor(model => model.Direction, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Direction, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Quantity, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-10">
+                                                            @Html.EditorFor(model => model.Quantity, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Quantity, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+                                                    <div class="form-group">
+                                                        @Html.LabelFor(model => model.Strength, htmlAttributes: new { @class = "control-label col-md-2" })
+                                                        <div class="col-md-10">
+                                                            @Html.EditorFor(model => model.Strength, new { htmlAttributes = new { @class = "form-control" } })
+                                                            @Html.ValidationMessageFor(model => model.Strength, "", new { @class = "text-danger" })
+                                                        </div>
+                                                    </div>
+
+
+                                                </div>
+
+                                                <div class="form-group">
+                                                    @Html.HiddenFor(model => model.InvoiceId)
+                                                </div>
+
+                                                <div class="form-group">
+                                                    <div class="col-md-offset-2 col-md-10">
+                                                        <input type="submit" value="Create" class="btn btn-default" id="btnCreate" style="display:none" />
+                                                        <input type="button" value="Cancel" class="btn btn-default" id="btnCancelCreate" style="display:none" />
+                                                    </div>
+                                                </div>
+                                            }
+    </div>
+                                            }
+
+<script type="text/javascript">
+    $(function () {
+        $("#btnNext").click(function () {
+            var PatientUserId = $("#PatientUserId").val();
+            var PrescribedByUserId = $("#PrescribedByUserId").val();
+            window.location.href = "/Prescription/Prescription/Order/?PatientID=" + PatientUserId + "&DoctorID=" + PrescribedByUserId + "&InvoiceId=" + $("#InvoiceId").val();
+        })
+
+        $("#btnAddPrescription").click(function () {
+            $(".divPrescription").css('display', 'block');
+            $("#btnAddPrescription").css('display', 'none');
+            $("#btnNext").css('display', 'none');
+            $("#btnCreate").css('display', 'inline-block');
+            $("#btnCancelCreate").css('display', 'inline-block');
+            $("#PrescriptionTypeId").val("");
+            $("#DrugName").val("");
+            $("#Direction").val("");
+            $("#Quantity").val("");
+            $("#Strength").val("");
+        })
+        
+
+        $("#btnCancelCreate").click(function () {
+            $(".divPrescription").css('display', 'none');
+            $("#btnAddPrescription").css('display', 'inline-block');
+            $("#btnNext").css('display', 'inline-block');
+            $("#btnCreate").css('display', 'none');
+            $("#btnCancelCreate").css('display', 'none');
+            $("#PrescriptionTypeId").val("");
+            $("#DrugName").val("");
+            $("#Direction").val("");
+            $("#Quantity").val("");
+            $("#Strength").val("");
+            $("#divGroupName").css('display', 'none');
+            $("#divGroupName").val("");
+        })
+
+        $("#PrescriptionTypeId").change(function () {
+            $("#divGroupName").css('display', 'none');
+            if ($("#PrescriptionTypeId").val() == 2)
+            {
+                $("#divGroupName").css('display', 'block');
+            }
+        })
+
+        $("#DrugName").autocomplete({
+                appendTo: "#container",
+                source: function (request, response) {
+
+                    var dName = $("#DrugName").val();
+                    var DrugNameInput = {
+                        DrugName: dName
+                    };
+                    if (dName.length >= 3)
+                    {
+                        $.ajax({
+                            url: "/Prescription/Prescription/AutoCompleteDrugName",
+                            type: "POST",
+                            dataType: "json",
+                            data: JSON.stringify(DrugNameInput),
+                            contentType: "application/json",
+                            success: function (data) {
+                                response($.map(data, function (item) {
+                                    return { label: item, value: item };
+                                }))
+
+                            }
+                        })
+                    }
+                    
+                },
+                messages: {
+                    noResults: "", results: ""
+                }
+            })
+        
+        
+    })
+</script>
